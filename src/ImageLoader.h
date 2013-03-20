@@ -27,6 +27,7 @@
 #define __IMAGELOADER__
 
 #include <sys/types.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <mach/mach_time.h> // struct mach_timebase_info
 #include <mach/mach_init.h> // struct mach_thread_self
@@ -38,7 +39,8 @@
 #include <new>
 
 #if (__i386__ || __x86_64__)
-	#include <CrashReporterClient.h>
+	#define CRSetCrashLogMessage(x)
+	#define CRSetCrashLogMessage2(x)
 #else
 	// work around until iOS has CrashReporterClient.h
 	#define CRSetCrashLogMessage(x)
@@ -86,11 +88,11 @@
 #define SUPPORT_OLD_CRT_INITIALIZATION (__i386__)
 #define SUPPORT_LC_DYLD_ENVIRONMENT  (__i386__ || __x86_64__)
 #define SUPPORT_VERSIONED_PATHS  (__i386__ || __x86_64__)
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
-	#define CORESYMBOLICATION_SUPPORT 1
-#else
-	#define CORESYMBOLICATION_SUPPORT   (__i386__ || __x86_64__)
-#endif
+// #if __IPHONE_OS_VERSION_MIN_REQUIRED
+// 	#define CORESYMBOLICATION_SUPPORT 1
+// #else
+// 	#define CORESYMBOLICATION_SUPPORT   (__i386__ || __x86_64__)
+// #endif
 #if __arm__
 	#define INITIAL_IMAGE_COUNT 256
 #else
